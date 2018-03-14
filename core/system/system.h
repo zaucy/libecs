@@ -31,14 +31,7 @@ namespace ecs {
 				, std::is_pointer<T>::value
 				, std::is_const<T>::value
 				)
-		{
-			auto componentType = typename component_type::get_component_type();
-
-			std::cout
-				<< "Creating system component defintion from template: "
-				<< std::to_string(componentType.component_type_hash_code)
-				<< std::endl;
-		}
+		{ }
 	};
 
 	template<typename... componentsT>
