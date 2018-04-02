@@ -33,7 +33,7 @@ void ecs::system_manager::process_entity
 				componentList.push_back(entityComponentPair.second);
 			}
 
-			system->_process(componentList);
+			system->_process(entity, componentList);
 		}
 	}
 }

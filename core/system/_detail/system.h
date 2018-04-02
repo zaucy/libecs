@@ -8,6 +8,7 @@
 // Forward Declarations
 namespace ecs {
 	class system_manager;
+	class entity;
 }
 
 
@@ -54,7 +55,8 @@ namespace ecs { namespace _detail {
 			);
 
 		virtual void _process
-			( std::vector<component_base*> components
+			( ecs::entity&                  entity
+			, std::vector<component_base*>  components
 			) = 0;
 
 	private:

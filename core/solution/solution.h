@@ -2,8 +2,8 @@
 
 #include <type_traits>
 
-#include "system/system_manager.h"
-#include "entity/entity_manager.h"
+#include "../system/system_manager.h"
+#include "../entity/entity_manager.h"
 
 namespace ecs {
 

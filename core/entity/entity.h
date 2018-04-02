@@ -50,7 +50,7 @@ namespace ecs {
 		);
 
 		_addComponent(
-			typename componentT::get_component_type(),
+			componentT::get_component_type(),
 			new componentT{ctorArgs...}
 		);
 	}

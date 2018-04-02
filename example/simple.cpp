@@ -43,7 +43,8 @@ class GravitySystem
 public:
 
 	virtual void process
-		( PositionComponent& positionComponent
+		( ecs::entity&        entity
+		, PositionComponent&  positionComponent
 		) override
 	{
 		positionComponent.y -= 9.81f;

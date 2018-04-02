@@ -7,6 +7,11 @@
 #include "_detail/system.h"
 #include "../component/component.h"
 
+// Forward declarations
+namespace ecs {
+	class entity;
+}
+
 namespace ecs {
 
 	template<typename T>
@@ -26,7 +31,7 @@ namespace ecs {
 
 		inline system_component_defintion()
 			: _detail::system_component_definition
-				( typename component_type::get_component_type()
+				( component_type::get_component_type()
 				, std::is_reference<T>::value
 				, std::is_pointer<T>::value
 				, std::is_const<T>::value
@@ -41,13 +46,15 @@ namespace ecs {
 		inline system();
 
 		virtual void process
-			( componentsT... components
+			( ecs::entity&    entity
+			, componentsT...  components
 			) = 0;
 
 	private:
 
 		virtual void _process
-			( std::vector<component_base*> components
+			( ecs::entity&                  entity
+			, std::vector<component_base*>  components
 			) final;
 
 	};
@@ -63,7 +70,8 @@ namespace ecs {
 
 	template<typename... componentsT>
 	inline void system<componentsT...>::_process
-		( std::vector<component_base*> components
+		( ecs::entity&                  entity
+		, std::vector<component_base*>  components
 		)
 	{
 
@@ -75,8 +83,9 @@ namespace ecs {
 		};
 
 		process(
+			entity,
 			*reinterpret_cast<
-				std::remove_reference<std::remove_cv<componentsT>::type>::type*
+				typename std::remove_reference<typename std::remove_cv<componentsT>::type>::type*
 			>(popBackGet(components))...
 		);
 	}
