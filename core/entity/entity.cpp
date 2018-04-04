@@ -1,6 +1,20 @@
 #include "entity.h"
 #include "../component/component.h"
 
+namespace {
+	ecs::atomic_entity_id nextEntityId{0};
+}
+
+ecs::entity::entity()
+	: _entityId(++nextEntityId)
+{
+
+}
+
+const ecs::entity_id ecs::entity::id() const {
+	return _entityId;
+}
+
 void ecs::entity::_addComponent
 	( ecs::component_type  componentType
 	, component_base*      componentBase

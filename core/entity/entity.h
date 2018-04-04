@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 #include <type_traits>
+#include <cstdint>
+#include <atomic>
 
 #include "../component/component.h"
 
@@ -15,8 +17,15 @@ namespace ecs {
 
 namespace ecs {
 
+	using entity_id = uint32_t;
+	using atomic_entity_id = std::atomic_uint32_t;
+
 	class entity {
 	public:
+
+		entity();
+
+		const entity_id id() const;
 
 		ecs::component_types component_types() const;
 
@@ -29,6 +38,7 @@ namespace ecs {
 		friend ecs::system_manager;
 		friend ecs::entity_manager;
 
+		const ecs::entity_id _entityId;
 		ecs::component_types _componentTypes;
 		std::map<ecs::component_type, ecs::component_base*> components;
 

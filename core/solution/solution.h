@@ -3,7 +3,7 @@
 #include <type_traits>
 
 #include "../system/system_manager.h"
-#include "../entity/entity_manager.h"
+// #include "../entity/entity_manager.h"
 
 namespace ecs {
 
@@ -40,11 +40,6 @@ namespace ecs {
 		static_assert(
 			!std::is_base_of<solutionT, system_manager>::value,
 			"ecs::solution<T> T must inherit ecs::system_manager"
-		);
-
-		static_assert(
-			!std::is_base_of<solutionT, entity_manager>::value,
-			"ecs::solution<T> T must inherit ecs::entity_manager"
 		);
 
 		virtual solution_state solve() noexcept = 0;

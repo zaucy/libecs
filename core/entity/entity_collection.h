@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <iterator>
 
 // Forward Declarations
 namespace ecs {
@@ -10,8 +11,25 @@ namespace ecs {
 
 namespace ecs {
 
-	class entity_manager {
+	class entity_iterator
+		: public std::iterator<std::forward_iterator_tag, ecs::entity&>
+	{
 	public:
+		entity_iterator
+			( ecs::entity* );
+	};
+
+	class entity_collection {
+	public:
+
+		using iterator = entity_iterator;
+		using const_iterator = const entity_iterator;
+
+		iterator begin();
+		iterator end();
+
+		const_iterator begin() const;
+		const_iterator end() const;
 
 		/**
 			Adds a new entity created from a copy of another entities components.
@@ -22,12 +40,6 @@ namespace ecs {
 			Add a new entity (moved)
 		*/
 		void add_entity(ecs::entity&& entity);
-
-		/**
-			@NOTE: This will be deprecated soon in favour of an entity iterator that
-			       can be extended.
-		*/
-		std::vector<ecs::entity>& get_entities();
 
 	private:
 
