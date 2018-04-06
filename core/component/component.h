@@ -8,27 +8,39 @@
 #include <typeinfo>
 #include <typeindex>
 #include <type_traits>
+#include <cstdint>
+#include <functional>
+#include <utility>
 
 #include "_detail/hashCombine.h"
 
 // Forward Declarations
 namespace ecs {
 	struct component_types;
+	class component_base;
 }
 
 namespace ecs {
 
 	struct component_type {
+		using copy_fn_type = std::function<component_base*(const component_base*)>;
+
 		component_type() = delete;
 		component_type(const component_type&);
 		component_type(component_type&&);
-		component_type(const std::type_info& typeInfo);
+		component_type
+			( const std::type_info&  typeInfo
+			, const std::size_t      typeSize
+			, copy_fn_type           copyFn
+			);
 
 		component_type& operator=(component_type) = delete;
 		component_type& operator=(component_type&&) = delete;
 		component_type& operator=(const component_type&) = delete;
 
 		const std::size_t component_type_hash_code;
+		const std::size_t component_type_size;
+		const copy_fn_type component_copy_fn;
 
 		component_types operator+(const component_type&);
 		component_types operator+(const component_types&);
@@ -67,7 +79,11 @@ namespace ecs {
 	public:
 
 		static const component_type& get_component_type() {
-			static const ecs::component_type componentType{typeid(T)};
+			static const ecs::component_type componentType{
+				typeid(T), sizeof T, [](const component_base* c) -> component_base* {
+					return new T{*reinterpret_cast<const T*>(c)};
+				}
+			};
 
 			return componentType;
 		};

@@ -11,7 +11,7 @@
 
 // Forward Declarations
 namespace ecs {
-	class entity_manager;
+	class entity_collection;
 	class system_manager;
 }
 
@@ -24,6 +24,8 @@ namespace ecs {
 	public:
 
 		entity();
+		entity(const entity&);
+		~entity();
 
 		const entity_id id() const;
 
@@ -36,7 +38,7 @@ namespace ecs {
 	private:
 
 		friend ecs::system_manager;
-		friend ecs::entity_manager;
+		friend ecs::entity_collection;
 
 		const ecs::entity_id _entityId;
 		ecs::component_types _componentTypes;

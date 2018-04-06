@@ -7,15 +7,14 @@
 	inherits a helper template class that checks this at compile time.
 */
 class SimpleGame
-	: public ecs::entity_manager
-	, public ecs::system_manager
+	: public ecs::system_manager
 	, public ecs::solution<SimpleGame>
 {
 public:
 
-	virtual ecs::solution_state solve() noexcept override {
+	ecs::entity_collection entities;
 
-		auto entities = get_entities();
+	virtual ecs::solution_state solve() noexcept override {
 
 		for(auto& entity : entities) {
 			process_entity(entity);
@@ -64,7 +63,7 @@ int main() {
 	ecs::entity testEntity;
 	testEntity.add_component<PositionComponent>(0.f, 10.f);
 
-	game.add_entity_copy(testEntity);
+	game.entities.add_entity_copy(testEntity);
 	game.add_system<GravitySystem>();
 
 	while(!exiting) {

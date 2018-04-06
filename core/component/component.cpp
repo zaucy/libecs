@@ -4,18 +4,26 @@ ecs::component_type::component_type
 	( const ecs::component_type& other
 	)
 	: component_type_hash_code(other.component_type_hash_code)
+	, component_type_size(other.component_type_size)
+	, component_copy_fn(other.component_copy_fn)
 { }
 
 ecs::component_type::component_type
 	( ecs::component_type&& other
 	)
 	: component_type_hash_code(other.component_type_hash_code)
+	, component_type_size(other.component_type_size)
+	, component_copy_fn(std::move(other.component_copy_fn))
 { }
 
 ecs::component_type::component_type
-	( const std::type_info& typeInfo
+	( const std::type_info&  typeInfo
+	, const std::size_t      typeSize
+	, copy_fn_type           copyFn
 	)
 	: component_type_hash_code(typeInfo.hash_code())
+	, component_type_size(typeSize)
+	, component_copy_fn(copyFn)
 { }
 
 ecs::component_types ecs::component_type::operator+

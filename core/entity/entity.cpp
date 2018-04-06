@@ -11,6 +11,23 @@ ecs::entity::entity()
 
 }
 
+ecs::entity::entity(const entity& other)
+	: _entityId()
+{
+	for(auto entry : other.components) {
+		_addComponent(
+			entry.first,
+			entry.first.component_copy_fn(entry.second)
+		);
+	}
+}
+
+ecs::entity::~entity() {
+	for(auto entry : components) {
+		delete entry.second;
+	}
+}
+
 const ecs::entity_id ecs::entity::id() const {
 	return _entityId;
 }
