@@ -1,8 +1,9 @@
 cc_test(
-	name = "entity-copy",
+	name = "entity-collection",
 	copts = ["/std:c++latest"],
-	srcs = ["entity-copy.cpp"],
+	srcs = ["entity-collection.cpp"],
 	deps = [
-		"//core:libecs_core"
+		"//core:libecs_core",
+		"@com_google_googletest//:gtest"
 	]
 )

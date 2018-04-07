@@ -3,3 +3,9 @@ http_archive(
 	url = "https://github.com/google/googletest/archive/1a7732a488850da770943e78ccd6de42985564a1.zip",
 	strip_prefix = "googletest-1a7732a488850da770943e78ccd6de42985564a1"
 )
+# Abseil
+http_archive(
+	name = "com_google_absl",
+	urls = ["https://github.com/abseil/abseil-cpp/archive/master.zip"],
+	strip_prefix = "abseil-cpp-master",
+)

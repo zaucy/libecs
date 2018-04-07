@@ -12,7 +12,7 @@ ecs::entity::entity()
 }
 
 ecs::entity::entity(const entity& other)
-	: _entityId()
+	: entity()
 {
 	for(auto entry : other.components) {
 		_addComponent(
