@@ -2,21 +2,29 @@
 #include "../component/component.h"
 
 namespace {
+	// Storage of the next entity id that will be used on construction.
 	ecs::atomic_entity_id nextEntityId{0};
 }
 
 ecs::entity::entity()
+	// Simply increment entity id every time we create an entity
 	: _entityId(++nextEntityId)
 {
 
 }
 
 ecs::entity::entity(const entity& other)
+	// Make sure to call the empty entity constructor so we get a brand new
+	// entity id.
 	: entity()
 {
+
+	// Copy all the components from the other entity
 	for(auto entry : other.components) {
 		_addComponent(
 			entry.first,
+
+			// This is the copy functor created from the component_type
 			entry.first.component_copy_fn(entry.second)
 		);
 	}

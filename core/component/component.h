@@ -22,6 +22,13 @@ namespace ecs {
 
 namespace ecs {
 
+	/*
+		A component_type holds the runtime type information as well as functors
+		for making a copy of a component of the component represented by the
+		runtime type information.
+
+		This is mostly used internally and you shouldn't need to use this class.
+	*/
 	struct component_type {
 		using copy_fn_type = std::function<component_base*(const component_base*)>;
 

@@ -24,13 +24,32 @@ namespace ecs {
 	public:
 
 		entity();
+
+		/*
+			Copy constructor for entity. Each component will be copied as well.
+		*/
 		entity(const entity&);
+
 		~entity();
 
+		/*
+			Getter for entity id. An entity id is unique to this entity and will never
+			be reused.
+		*/
 		const entity_id id() const;
 
+		/*
+			Convenient method for getting all component types of this entity.
+		*/
 		ecs::component_types component_types() const;
 
+		/*
+			Adds component to entity. This simply constructs componentT passing in
+			ctorArgsT into the constructor.
+
+			Only 1 component of each type is allowed. If add_component is called
+			again with the same type the previous type will be overwritten.
+		*/
 		template<typename componentT, typename... ctorArgsT>
 		inline void add_component
 			( ctorArgsT... ctorArgs );
@@ -44,6 +63,7 @@ namespace ecs {
 		ecs::component_types _componentTypes;
 		std::map<ecs::component_type, ecs::component_base*> components;
 
+		/* Internal method for adding components/ */
 		void _addComponent
 			( ecs::component_type  componentType
 			, component_base*      componentBase

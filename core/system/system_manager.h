@@ -17,6 +17,10 @@ namespace ecs {
 	class system_manager {
 	public:
 
+		/*
+			Add system system manager. add_system simply constructs systemT passing in
+			ctorArgsT into the constructor.
+		*/
 		template<typename systemT, typename... ctorArgsT>
 		inline void add_system(ctorArgsT... ctorArgs) {
 
