@@ -87,7 +87,7 @@ namespace ecs {
 
 		static const component_type& get_component_type() {
 			static const ecs::component_type componentType{
-				typeid(T), sizeof T, [](const component_base* c) -> component_base* {
+				typeid(T), sizeof(T), [](const component_base* c) -> component_base* {
 					return new T{*reinterpret_cast<const T*>(c)};
 				}
 			};
