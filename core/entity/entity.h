@@ -12,6 +12,7 @@
 // Forward Declarations
 namespace ecs {
 	class entity_collection;
+	class system_manager_entity_processor;
 	class system_manager;
 }
 
@@ -56,7 +57,7 @@ namespace ecs {
 
 	private:
 
-		friend ecs::system_manager;
+		friend ecs::system_manager_entity_processor;
 		friend ecs::entity_collection;
 
 		const ecs::entity_id _entityId;

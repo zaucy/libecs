@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <functional>
 #include <utility>
+#include <algorithm>
+#include <vector>
 
 #include "_detail/hashCombine.h"
 
@@ -45,6 +47,8 @@ namespace ecs {
 		component_type& operator=(component_type&&) = delete;
 		component_type& operator=(const component_type&) = delete;
 
+		bool operator==(const component_type& other) const;
+
 		const std::size_t component_type_hash_code;
 		const std::size_t component_type_size;
 		const copy_fn_type component_copy_fn;
@@ -77,6 +81,9 @@ namespace ecs {
 			) const;
 
 		std::set<std::size_t> component_type_indices;
+
+		std::vector<component_types> permutations() const;
+		std::vector<component_types> recursive_permutations() const;
 	};
 
 	class component_base {};

@@ -2,11 +2,13 @@
 
 #include <vector>
 #include <string>
+#include <chrono>
 
 #include "../../component/component.h"
 
 // Forward Declarations
 namespace ecs {
+	class system_manager_entity_processor;
 	class system_manager;
 	class entity;
 }
@@ -48,11 +50,17 @@ namespace ecs { namespace _detail {
 
 	protected:
 
-		friend ecs::system_manager;
+		friend ecs::system_manager_entity_processor;
+
+		std::chrono::high_resolution_clock::time_point _currentTimePoint;
+		std::chrono::high_resolution_clock::time_point _lastTimePoint;
 
 		system
 			( std::vector<system_component_definition> componentDefinitions
 			);
+
+		virtual void pre_process() = 0;
+		virtual void post_process() = 0;
 
 		virtual void _process
 			( ecs::entity&                  entity
@@ -60,9 +68,8 @@ namespace ecs { namespace _detail {
 			) = 0;
 
 	private:
-
+		friend system_manager;
 		std::vector<system_component_definition> _componentDefinitions;
-
 	};
 
 }}// namespace ecs::_detail

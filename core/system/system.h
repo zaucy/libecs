@@ -45,12 +45,22 @@ namespace ecs {
 
 		inline system();
 
+		template<class Rep, class Period = std::ratio<1>>
+		std::chrono::duration<Rep, Period> delta() const;
+
+		inline void pre_process() override {}
+
 		virtual void process
 			( ecs::entity&    entity
 			, componentsT...  components
 			) = 0;
 
+		inline void post_process() override {}
+
 	private:
+
+		using _detail::system::_currentTimePoint;
+		using _detail::system::_lastTimePoint;
 
 		virtual void _process
 			( ecs::entity&                  entity
@@ -69,12 +79,28 @@ namespace ecs {
 	}
 
 	template<typename... componentsT>
+	template<class Rep, class Period>
+	inline std::chrono::duration<Rep, Period> system<componentsT...>::delta
+		(
+		) const
+	{
+		using std::chrono::duration;
+
+		if(_lastTimePoint == _currentTimePoint) {
+			std::cout << "Last time point is same as current time point!" << std::endl;
+		}
+
+		return duration<Rep, Period>(
+			_currentTimePoint - _lastTimePoint
+		);
+	}
+
+	template<typename... componentsT>
 	inline void system<componentsT...>::_process
 		( ecs::entity&                  entity
 		, std::vector<component_base*>  components
 		)
 	{
-
 		auto popBackGet = [&](auto dummyParam) {
 			auto comp = components.back();
 			components.pop_back();

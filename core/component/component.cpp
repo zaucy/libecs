@@ -1,5 +1,7 @@
 #include "component.h"
 
+#include <algorithm>
+
 ecs::component_type::component_type
 	( const ecs::component_type& other
 	)
@@ -67,6 +69,10 @@ ecs::component_types ecs::component_types::operator+
 	componentTypesCopy += componentTypes;
 
 	return componentTypesCopy;
+}
+
+bool ecs::component_type::operator==(const ecs::component_type& other) const {
+	return component_type_hash_code == other.component_type_hash_code;
 }
 
 ecs::component_types& ecs::component_types::operator+=
@@ -145,3 +151,29 @@ bool ecs::component_types::operator!=
 
 	return false;
 }
+
+std::vector<ecs::component_types> ecs::component_types::permutations() const {
+	std::vector<ecs::component_types> componentTypesList;
+
+	auto indiciesSize = component_type_indices.size();
+	auto indicies = std::vector<size_t>(
+		component_type_indices.begin(),
+		component_type_indices.end()
+	);
+
+	std::sort(indicies.begin(), indicies.end());
+
+	do {
+		ecs::component_types componentTypes;
+		componentTypes.component_type_indices = std::set<size_t>(
+			indicies.begin(),
+			indicies.end()
+		);
+
+		componentTypesList.push_back(componentTypes);
+
+	} while(std::next_permutation(indicies.begin(), indicies.end()));
+
+	return componentTypesList;
+}
+
