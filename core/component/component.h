@@ -13,6 +13,7 @@
 #include <utility>
 #include <algorithm>
 #include <vector>
+#include <type_traits>
 
 #include "_detail/hashCombine.h"
 
@@ -91,10 +92,13 @@ namespace ecs {
 	template<typename T>
 	class component : public component_base {
 	public:
-
 		static const component_type& get_component_type() {
 			static const ecs::component_type componentType{
 				typeid(T), sizeof(T), [](const component_base* c) -> component_base* {
+
+					static_assert(std::is_copy_constructible<T>::value, "libecs components must be copy constructable");
+
+					// Copy construct component
 					return new T{*reinterpret_cast<const T*>(c)};
 				}
 			};
