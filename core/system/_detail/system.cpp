@@ -38,7 +38,6 @@ ecs::_detail::system::system
 	, _lastTimePoint(std::chrono::high_resolution_clock::now())
 	, _currentTimePoint(std::chrono::high_resolution_clock::now())
 {
-	std::cout << "System constructor" << std::endl;
 }
 
 ecs::component_types ecs::_detail::system::component_types() const {
